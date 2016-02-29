@@ -1,0 +1,22 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mycompany.omkar.popularmoviesapp.MainFragment"
+    android:numColumns="auto_fit"
+    android:verticalSpacing="0dp"
+    android:horizontalSpacing="0dp"
+    android:id="@+id/posters_grid"
+    android:stretchMode="columnWidth"
+
+    >
+</GridView>
+    <!--android:columnWidth="200dp"-->
+
+    <!--stretch mode needed?       -->
+</RelativeLayout>

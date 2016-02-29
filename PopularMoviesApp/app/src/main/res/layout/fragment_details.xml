@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mycompany.omkar.popularmoviesapp.DetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_image"
+       />
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/details_title"
+          android:layout_below="@+id/details_image"
+          android:textSize="@dimen/details_textsize"
+          />
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_release_date"
+          android:layout_below="@+id/details_title"
+          android:textSize="@dimen/details_textsize"/>
+
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/details_overview"
+          android:layout_below="@+id/details_release_date"
+          android:textSize="@dimen/details_textsize"/>
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/details_vote_average"
+          android:layout_below="@+id/details_overview"
+          android:textSize="@dimen/details_textsize"/>
+
+  </RelativeLayout>
+
+  </ScrollView>
+</FrameLayout>

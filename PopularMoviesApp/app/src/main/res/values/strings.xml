@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">PopularMoviesApp</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="options_menu_1">By popularity</string>
+    <string name="options_menu_2">By rating</string>
+    <string name="sorting_order_by_popularity">popularity.desc</string>
+    <string name="sorting_order_by_rating">vote_average.desc</string>
+    <string name="base_url_movie_data">http://api.themoviedb.org/3/discover/movie?</string>
+    <string name="api_key_tmdb">put_your_api_key_here</string>
+
 </resources>
