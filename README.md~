@@ -2,12 +2,20 @@
 
 Note : The api key should be updated in the res/values/strings.xml file
 
-Suggestions given:
-
-1. Using saved instance state and parceble - see video
-2. using butterknife package for injecting views.
-
+<<<<<<< HEAD
 Libraries used : 
 1. Retrofit used to make network calls 
 2. Picasso to load images 
 3. Stetho used to visualise SQLite database
+
+Suggestions given:
+
+1. Using saved instance state and parceble - see video
+2. using butterknife package for injecting views.
+=======
+Libraries used :
+1. Retrofit used to make network calls
+2. Picasso to load images
+3. Stetho used to visualise SQLite database
+>>>>>>> 2bc3ad53047dc978ccc73cfc7b0e4041789b6c57
+
