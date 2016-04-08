@@ -10,4 +10,9 @@
         android:title="@string/options_menu_2">
     </item>
 
+    <item
+        android:id="@+id/favourites"
+        android:title="Favourites">
+    </item>
+
 </menu>

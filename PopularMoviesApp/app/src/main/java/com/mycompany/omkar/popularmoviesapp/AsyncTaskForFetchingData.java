@@ -1,16 +1,18 @@
 package com.mycompany.omkar.popularmoviesapp;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+/*
+* This class is no longer being used as retrofit library is being used for network calls.
+*
+* */
+
+
+
+
+
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -22,12 +24,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
+
+import retrofit2.Call;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Retrofit;
+
+import com.mycompany.omkar.popularmoviesapp.MovieReviewService.MovieReviewAPI;
 /**
  * Created by omkar on 22/2/16.
  */
@@ -39,14 +44,24 @@ public class AsyncTaskForFetchingData extends AsyncTask<Integer,Void , Void>{
     private GridView gridView;
     private String TAG = "AsyncTask" ;
     private boolean internetAccess;
+    public static String BASE_URL_REVIEWS ;
+    public static String BASE_URL_TRAILERS;
+
+    private Call<Reviews> call;
+
 
     public AsyncTaskForFetchingData(Context context, GridView gridView){
         this.context = context;
+        BASE_URL_REVIEWS = context.getString( R.string.base_url);
+        BASE_URL_TRAILERS = context.getString( R.string.base_url);
         this.activity_context = (FragmentActivity) context ;
         this.gridView = gridView;
         this.internetAccess = true;
     }
 
+  /*we will make 3 api calls. One for the basic movie info. Another one for the trailers info
+  * and the last one for the reviews info.
+  * */
     @Override
     protected Void doInBackground(Integer... arr) {
 
@@ -64,12 +79,13 @@ public class AsyncTaskForFetchingData extends AsyncTask<Integer,Void , Void>{
         final String myApiKey = context.getString(R.string.api_key_tmdb) ;
         final String TAG = "Inside AsyncTask";
 
-        final String url_string = FETCH_MOVIE_BASE_URL + SORT_BY + "=" + sorting_order + "&" + API_KEY + "=" + myApiKey ;
+        final String url_string_basic_movie_info = FETCH_MOVIE_BASE_URL + SORT_BY + "=" + sorting_order + "&" + API_KEY + "=" + myApiKey ;
+
 
         InputStream is =null;
 
         try{
-            URL url = new URL(url_string);
+            URL url = new URL(url_string_basic_movie_info);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000 /* milliseconds */);
             conn.setConnectTimeout(15000 /* milliseconds */);
@@ -119,9 +135,14 @@ public class AsyncTaskForFetchingData extends AsyncTask<Integer,Void , Void>{
         }
     return null;
     }
+    /*will run on the UI thread. So we fetch review and trailer data for each movie from here.*/
 
+
+    /*
     @Override
     protected void onPostExecute(Void v) {
+
+
 
         if(internetAccess == false) {
 
@@ -131,32 +152,33 @@ public class AsyncTaskForFetchingData extends AsyncTask<Integer,Void , Void>{
 
         }
         Log.d(TAG , "on post execute");
-        CustomAdapterForGridView adapter = new CustomAdapterForGridView(context, Arrays.asList(movies));
 
-        gridView.setAdapter(adapter);
+        //get the reviews and trailers as well so that if a user clicks on a movie poster, the reviews and trailer info
+        //is also passed on to the detail fragment.
+        //call update adapter after both trailers and reviews have been received. i.e. in callback.
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Retrofit retrofit  = new Retrofit.Builder()
+                .baseUrl(BASE_URL_REVIEWS)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-                //Toast t = Toast.makeText(context,"i am at postition :" + position,Toast.LENGTH_SHORT);
-                //t.show();
-                android.support.v4.app.FragmentManager fm= activity_context.getSupportFragmentManager() ;
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-
-                DetailsFragment fragment = new DetailsFragment();
-                fragment.setMovie(movies[position],context);
-                ft.replace(R.id.fragment_container, fragment, "details_fragment");
-                ft.addToBackStack(null);
-                ft.commit();
+        MovieReviewAPI movieReviewAPI = retrofit.create(MovieReviewAPI.class);
 
 
-            }
-        });
+
+        for(int i=0; i< movies.length ; i++)
+        {
+            call =  movieReviewAPI.getReviews(movies[i].getId() , context.getString(R.string.api_key_tmdb));
+            call.enqueue(new CustomCallbackReview(movies , i , context ,gridView, activity_context));
+
+        }
+
+
+
 
     return ;
     }
-
+*/
 
     private String convertInputToString(InputStream inputStream) throws IOException{
         BufferedReader reader = null;
@@ -194,6 +216,7 @@ public class AsyncTaskForFetchingData extends AsyncTask<Integer,Void , Void>{
         movie.setOverview(jsonObject1.getString("overview"));
         movie.setRelease_date(jsonObject1.getString("release_date"));
         movie.setVote_average(jsonObject1.getDouble("vote_average"));
+        movie.setId(jsonObject1.getInt("id"));
 
             //movie.setPoster_path(jsonObject1.getString("poster_path"));
         String url = baseUrl + "w185" + jsonObject1.getString("poster_path");

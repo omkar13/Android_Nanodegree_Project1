@@ -16,7 +16,10 @@
             </intent-filter>
         </activity>
 
-
+        <provider
+            android:authorities="com.mycompany.omkar.popularmoviesapp.app"
+            android:name="com.mycompany.omkar.popularmoviesapp.data.FavouriteMoviesProvider"
+        ></provider>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

@@ -1,9 +1,6 @@
 package com.mycompany.omkar.popularmoviesapp;
 
-import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
-
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by omkar on 22/2/16.
@@ -15,13 +12,18 @@ public class Movie {
     private String url;
     private double vote_average;
     private String overview;
+    private int id;
+    private List<ReviewPOJO> reviewList;
+    private List<TrailerPOJO> trailerList;
 
-    public Movie(String title, String release_date, String url, double vote_average, String overview) {
+
+    public Movie(String title, String release_date, String url, double vote_average, String overview, int id) {
         this.title = title;
         this.release_date = release_date;
         this.url = url;
         this.vote_average = vote_average;
         this.overview = overview;
+        this.id = id;
     }
 
     public Movie(){
@@ -66,6 +68,30 @@ public class Movie {
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<ReviewPOJO> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<ReviewPOJO> reviewList) {
+        this.reviewList = reviewList;
+    }
+
+    public List<TrailerPOJO> getTrailerList() {
+        return trailerList;
+    }
+
+    public void setTrailerList(List<TrailerPOJO> trailerList) {
+        this.trailerList = trailerList;
     }
 }
 
