@@ -32,6 +32,7 @@ import retrofit2.Retrofit;
 import com.mycompany.omkar.popularmoviesapp.MovieService.MovieAPI;
 import com.mycompany.omkar.popularmoviesapp.data.FavouriteMoviesContract;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -214,6 +215,40 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
                     }
 
+                    //update the adapter
+                    CustomAdapterForGridView adapter = new CustomAdapterForGridView(getActivity(), Arrays.asList(movies));
+
+                    gridView.setAdapter(adapter);
+
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            FragmentManager fm = getActivity().getFragmentManager();
+                            FragmentTransaction ft = fm.beginTransaction();
+
+                            DetailsFragment fragment = new DetailsFragment();
+                            fragment.setMovie(movies[position], getActivity());
+                            //ft.replace(R.id.fragment_container, fragment, "details_fragment");
+
+                            if(!mTabletMode)
+                                ft.replace(R.id.fragment_container, fragment, "details_fragment");
+                            else
+                                ft.replace(R.id.fragment_container1, fragment, "details_fragment");
+
+                            ft.addToBackStack(null);
+                            ft.commit();
+
+
+                        }
+                    });
+
+
+
+
+
+
+
                     //now make network calls to get the review and trailers to each movie.
                     //after they are done update the adapter.
 
@@ -230,7 +265,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
                     for (int i = 0; i < movies.length; i++) {
                         call = movieReviewAPI.getReviews(movies[i].getId(), getActivity().getString(R.string.api_key_tmdb));
-                        call.enqueue(new CustomCallbackReview(movies, i, getActivity(), gridView, (FragmentActivity) getActivity(),mTabletMode));
+                        call.enqueue(new CustomCallbackReview(movies, i, getActivity(), gridView, (FragmentActivity) getActivity(),mTabletMode , adapter));
 
                     }
 
@@ -247,7 +282,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
                     for (int i = 0; i < movies.length; i++) {
                         call1 = movieTrailerAPI.getTrailers(movies[i].getId(), getString(R.string.api_key_tmdb));
-                        call1.enqueue(new CustomCallbackTrailer(movies, i, getActivity(), gridView, (FragmentActivity) getActivity(),mTabletMode));
+                        call1.enqueue(new CustomCallbackTrailer(movies, i, getActivity(), gridView, (FragmentActivity) getActivity(),mTabletMode,adapter));
 
                     }
 

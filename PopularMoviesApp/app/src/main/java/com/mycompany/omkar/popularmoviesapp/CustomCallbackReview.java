@@ -30,14 +30,16 @@ public class CustomCallbackReview implements Callback<Reviews> {
     private GridView gridView;
     private Activity activity_context;
     private boolean mTabletMode;
+    private CustomAdapterForGridView customAdapterForGridView;
 
-    public CustomCallbackReview(Movie[] movies, int i, Context context, GridView g, Activity activity_context , boolean mTabletMode){
+    public CustomCallbackReview(Movie[] movies, int i, Context context, GridView g, Activity activity_context , boolean mTabletMode , CustomAdapterForGridView adapterForGridView){
         this.movies = movies;
         this.i = i;
         this.context = context;
         this.gridView =g;
         this.activity_context = activity_context;
         this.mTabletMode = mTabletMode;
+        this.customAdapterForGridView = adapterForGridView;
     }
 
     @Override
@@ -73,7 +75,8 @@ public class CustomCallbackReview implements Callback<Reviews> {
 
     public void updateAdapter(){
 
-        CustomAdapterForGridView adapter = new CustomAdapterForGridView(context, Arrays.asList(movies));
+        customAdapterForGridView.notifyDataSetChanged();
+        /*CustomAdapterForGridView adapter = new CustomAdapterForGridView(context, Arrays.asList(movies));
 
         gridView.setAdapter(adapter);
 
@@ -100,7 +103,7 @@ public class CustomCallbackReview implements Callback<Reviews> {
             }
         });
 
-
+*/
 
     }
 

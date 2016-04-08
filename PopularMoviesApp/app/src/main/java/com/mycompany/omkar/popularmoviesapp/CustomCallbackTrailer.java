@@ -31,14 +31,16 @@ public class CustomCallbackTrailer implements Callback<Trailers> {
     private GridView gridView;
     private Activity activity_context;
     private boolean mTabletMode;
+    private CustomAdapterForGridView customAdapterForGridView;
 
-    public CustomCallbackTrailer(Movie[] movies, int i, Context context, GridView g, Activity activity_context, boolean mTabletMode){
+    public CustomCallbackTrailer(Movie[] movies, int i, Context context, GridView g, Activity activity_context, boolean mTabletMode , CustomAdapterForGridView adapterForGridView){
         this.movies = movies;
         this.i = i;
         this.context = context;
         this.gridView =g;
         this.activity_context = activity_context;
         this.mTabletMode = mTabletMode;
+        this.customAdapterForGridView = adapterForGridView;
     }
 
 
@@ -74,6 +76,8 @@ public class CustomCallbackTrailer implements Callback<Trailers> {
 
     public void updateAdapter(){
 
+        customAdapterForGridView.notifyDataSetChanged();
+        /*
         CustomAdapterForGridView adapter = new CustomAdapterForGridView(context, Arrays.asList(movies));
 
         gridView.setAdapter(adapter);
@@ -100,6 +104,8 @@ public class CustomCallbackTrailer implements Callback<Trailers> {
 
             }
         });
+*/
+
 
 
 
